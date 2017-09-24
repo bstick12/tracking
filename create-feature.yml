@@ -1,0 +1,18 @@
+---
+platform: linux
+
+image_resource:
+  type: docker-image
+  source:
+    repository: pcfkubo/kubo-ci
+    tag: stable
+
+  inputs:
+    - name: kubernetes
+    - name: kubo-release
+
+  run:
+    path: kubernetes/create-feature.sh
+
+  outputs:
+    - name: kubo-release-feature

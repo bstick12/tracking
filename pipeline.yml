@@ -1,0 +1,30 @@
+---
+resources:
+- name: kubernetes
+  type: git
+  source:
+    uri: git@github.com:bstick12/tracking.git
+    branch: master
+    tag_filter: "v*"
+    private_key: ((private_key))
+
+- name: kubo-release
+  type: git
+  source:
+    uri: git@github.com:bstick12/kubo-release.git
+    branch: master
+    private_key: ((private_key))
+
+jobs:
+- name: create-feature
+  public: true
+  plan:
+  - get : kubernetes
+    trigger: true
+  - get : kubo-release
+  - task: create-feature-branch
+    file: tracking/create-feature.yml
+  - put: kubernetes
+    params:
+      repository: tracking-feature
+
