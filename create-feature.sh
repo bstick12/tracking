@@ -2,6 +2,9 @@
 
 set -euxo
 
+git config --global user.email "brendan.nolan-ci@gmail.com"
+git config --global user.name "Brendan Nolan (CI)"
+
 pushd kubo-release
 
   version=$(git describe --tags --abbrev=0)
