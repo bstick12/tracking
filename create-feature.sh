@@ -17,6 +17,8 @@ echo "feature/$version" > kubo-feature-branch
 
 pushd kubo-release-feature
 
+  git checkout -b feature/${version}
+
   echo $(date) > test.txt
   git add .
   git commit -m "Test commit"
