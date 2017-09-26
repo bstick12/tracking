@@ -1,4 +1,11 @@
 ---
+resource_types:
+- name: gitbrancher
+  type: docker-image
+  source:
+    repository: bstick12/git-resource
+    tag: latest
+
 resources:
 - name: kubernetes
   type: git
@@ -8,8 +15,15 @@ resources:
     tag_filter: "v*"
     private_key: ((private_key))
 
-- name: kubo-release
+- name: tracking-ci
   type: git
+  source:
+    uri: git@github.com:bstick12/tracking.git
+    branch: master
+    private_key: ((private_key))
+
+- name: kubo-release
+  type: gitbrancher
   source:
     uri: git@github.com:bstick12/kubo-release.git
     branch: master
@@ -19,12 +33,16 @@ jobs:
 - name: create-feature
   public: true
   plan:
-  - get : kubernetes
+  - get: kubernetes
     trigger: true
-  - get : kubo-release
+  - get: kubo-release
+  - get: tracking-ci
   - task: create-feature-branch
-    file: kubernetes/create-feature.yml
-  - put: kubernetes
+    file: tracking-ci/create-feature.yml
+  - put: kubo-release
     params:
-      repository: tracking-feature
+      repository: kubo-release-feature
+      branch: kubo-feature-branch
+      force: true
+
 

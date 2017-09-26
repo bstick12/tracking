@@ -7,12 +7,13 @@ image_resource:
     repository: pcfkubo/kubo-ci
     tag: stable
 
-  inputs:
-    - name: kubernetes
-    - name: kubo-release
+inputs:
+  - name: kubernetes
+  - name: kubo-release
+  - name: tracking-ci
 
-  run:
-    path: kubernetes/create-feature.sh
+run:
+  path: tracking-ci/create-feature.sh
 
-  outputs:
-    - name: kubo-release-feature
+outputs:
+  - name: kubo-release-feature
